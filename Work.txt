@@ -1,0 +1,109 @@
+DROP DATABASE IF EXISTS Works;
+CREATE DATABASE Works DEFAULT CHARSET=GBK;
+USE Works;
+CREATE TABLE UserInfo
+(
+UserName nvarchar(50) Primary key,
+Password nvarchar(50) not null,
+QQ nvarchar(12),
+Email nvarchar(50),
+Type nchar(10) not null,
+UserImg nvarchar(250)
+) ;
+CREATE TABLE Activity
+(
+ActivityID int Primary key auto_increment,
+ActivityName nvarchar(125) not null,
+EndTime datetime not null,
+ActivityPicture nvarchar(250) not null,
+ActivityIntroduction nvarchar(8000),
+Summary nvarchar(250),
+ActivityVerify nchar(10) not null DEFAULT '待审核',
+ActivityStatus nchar(10),
+UserName nvarchar(50) not null,
+Recommend nchar(2),
+RecommendTime datetime
+);
+CREATE TABLE WorkInfo
+(
+WorkId int Primary key auto_increment,
+WorkName nvarchar(50) not null,
+WorkPicture nvarchar(250) not null,
+UploadTime datetime not null,
+WorkIntroduction nvarchar(8000),
+WorkVerify nchar(10) not null,
+UserName nvarchar(50) NOT NULL,
+ActivityId int,
+Recommend nchar(2) not null,
+RecommendTime datetime
+);
+CREATE TABLE Comment
+(
+CommentID int Primary key auto_increment,
+WorkID int not null,
+UserName nvarchar(50)  not null,
+CommentContent nvarchar(8000)  not null,
+CommentTime datetime not null
+);
+CREATE TABLE image
+(
+ImgID int Primary key auto_increment,
+ImgUrl nvarchar(50) not null,
+ImgText nvarchar(50) not null,
+ImgLink nvarchar(100) not null,
+ImgAlt nvarchar(50) not null
+);
+ALTER TABLE WorkInfo
+ADD FOREIGN KEY(ActivityId) REFERENCES Activity(ActivityID);
+ALTER TABLE WorkInfo
+ADD FOREIGN KEY(USERNAME) REFERENCES UserInfo(USERNAME);
+ALTER TABLE Comment
+ADD FOREIGN KEY(WorkID) REFERENCES WorkInfo(WorkID);
+ALTER TABLE Comment
+ADD FOREIGN KEY(USERNAME) REFERENCES UserInfo(USERNAME);
+ALTER TABLE Activity
+ADD FOREIGN KEY(USERNAME) REFERENCES UserInfo(USERNAME);
+insert into UserInfo(UserName,Password,Type,QQ,Email) 
+values
+('Admin','abc.123','管理员','12345','12345@qq.com'),
+('tom','tom','管理员','456','456@qq.com'),
+('andy','andy','会员','789','789@qq.com'),
+('畅畅','1234','会员','1234','1234@qq.com'),
+('汇汇','123456','会员','123456','123456@qq.com'),
+('享享','12345','会员','12345','12345@qq.com');
+INSERT INTO Activity 
+values
+(null,'节日贺卡设计','2019-06-10','img/Activity/1.png','<p>&nbsp;<img title="jieri.png" src="img/Editor/88ffff9d-4d50-4968-915f-85cfe3bce622.png"/></p><p><strong><span style="FONT-FAMILY: 宋体">一、</span></strong><strong><span style="FONT-FAMILY: 宋体">比赛对象</span></strong></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;</span></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;&nbsp;&nbsp; </span><span style="FONT-FAMILY: 宋体">全体注册用户</span></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;</span></p><p><strong><span style="FONT-FAMILY: 宋体">二、</span></strong><strong><span style="FONT-FAMILY: 宋体">作品要求</span></strong></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;</span></p><p style="TEXT-INDENT: 28px"><span style="FONT-FAMILY: Times New Roman">1</span><span style="FONT-FAMILY: 宋体">、设计主题：节日贺卡制作；</span></p><p style="TEXT-INDENT: 28px"><span style="FONT-FAMILY: Times New Roman">2</span><span style="FONT-FAMILY: 宋体">、</span><span style="FONT-FAMILY: 宋体">作品格式：</span><span style="FONT-FAMILY: Times New Roman">psd</span><span style="FONT-FAMILY: 宋体">格式；</span></p><p style="TEXT-INDENT: 28px"><span style="FONT-FAMILY: Times New Roman">3</span><span style="FONT-FAMILY: 宋体">、</span><span style="FONT-FAMILY: 宋体">作品内容：积极向上，紧扣主题，画面和谐美观，有创意，符合节日要求；</span></p><p style="TEXT-INDENT: 28px"><span style="FONT-FAMILY: Times New Roman">4</span><span style="FONT-FAMILY: 宋体">、</span><span style="FONT-FAMILY: 宋体">作品上交必须附交作品征集表。</span></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;</span></p><p><strong><span style="FONT-FAMILY: 宋体">三、</span></strong><strong><span style="FONT-FAMILY: 宋体">投稿方式</span></strong></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;</span></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;&nbsp;&nbsp; </span><span style="FONT-FAMILY: 宋体">电子邮件方式：发至邮箱（</span><span style="FONT-FAMILY: Times New Roman">itsupply@163.com</span><span style="FONT-FAMILY: 宋体">）并附填写作品征集表格。</span></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;&nbsp;&nbsp; </span><span style="FONT-FAMILY: 宋体">参赛方式：团体参赛【人数不超过</span><span style="FONT-FAMILY: Times New Roman">3</span><span style="FONT-FAMILY: 宋体">人】或个人参赛，作品必须在截止日期</span>前上传至邮箱。</span></p><p>&nbsp;</p>','节日贺卡设计，积极向上，紧扣主题，画面和谐美观，有创意，符合节日要求。','审核通过','已结束','Admin','否','2019-5-30'),
+(null,'茶叶包装设计大赛','2020-11-20','img/Activity/2.png','<p>&nbsp;<img title="cy2.png" src="img/Editor/037201a6-e5b6-4d13-9259-b19d2fe1c6a3.png"/></p><p><strong><span style="FONT-FAMILY: 宋体">一、</span></strong><strong><span style="FONT-FAMILY: 宋体">比赛对象</span></strong></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;</span></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;&nbsp;&nbsp; </span><span style="FONT-FAMILY: 宋体">全体注册用户。</span></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;</span></p><p><strong><span style="FONT-FAMILY: 宋体">二、</span></strong><strong><span style="FONT-FAMILY: 宋体">作品要求</span></strong></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;</span></p><p style="TEXT-INDENT: 28px"><span style="FONT-FAMILY: Times New Roman">1</span><span style="FONT-FAMILY: 宋体">、</span><span style="FONT-FAMILY: 宋体">设计主题：茶叶包装；</span></p><p style="TEXT-INDENT: 28px"><span style="FONT-FAMILY: Times New Roman">2</span><span style="FONT-FAMILY: 宋体">、</span><span style="FONT-FAMILY: 宋体">作品格式：</span><span style="FONT-FAMILY: Times New Roman">psd</span><span style="FONT-FAMILY: 宋体">格式；</span></p><p style="TEXT-INDENT: 28px"><span style="FONT-FAMILY: Times New Roman">3</span><span style="FONT-FAMILY: 宋体">、</span><span style="FONT-FAMILY: 宋体">作品内容：积极向上，紧扣主题，画面和谐美观，有创意，符合茶叶特点；</span></p><p style="TEXT-INDENT: 28px"><span style="FONT-FAMILY: Times New Roman">4</span><span style="FONT-FAMILY: 宋体">、</span><span style="FONT-FAMILY: 宋体">作品上交必须附交作品征集表。</span></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;</span></p><p><strong><span style="FONT-FAMILY: 宋体">三、</span></strong><strong><span style="FONT-FAMILY: 宋体">投稿方式</span></strong></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;</span></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;&nbsp;&nbsp; </span><span style="FONT-FAMILY: 宋体">电子邮件方式：发至邮箱（</span><span style="FONT-FAMILY: Times New Roman">itsupply@163.com</span><span style="FONT-FAMILY: 宋体">）并附填写作品征集表格。</span></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;&nbsp;&nbsp; </span><span style="FONT-FAMILY: 宋体">参赛方式：团体参赛【人数不超过</span><span style="FONT-FAMILY: Times New Roman">3</span><span style="FONT-FAMILY: 宋体">人】或个人参赛，作品必须在截止日期</span>前上传至邮箱。</span></p><p>&nbsp;</p>','茶叶包装设计，要求积极向上，紧扣主题，画面和谐美观，有创意，符合茶叶特点','审核通过','未结束','Admin','是','2019-7-30'),
+(null,'PS大赛','2020-12-20','img/Activity/3.png','<p>&nbsp;<img title="ps2.jpg" src="img/Editor/026e39d2-460b-43d0-a814-723381fa4cb5.jpg"/></p><p><strong><span style="FONT-FAMILY: 宋体">一、</span></strong><strong><span style="FONT-FAMILY: 宋体">比赛对象</span></strong></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;</span></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;&nbsp;&nbsp; </span><span style="FONT-FAMILY: 宋体">全体注册用户。</span></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;</span></p><p><strong><span style="FONT-FAMILY: 宋体">二、</span></strong><strong><span style="FONT-FAMILY: 宋体">作品要求</span></strong></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;</span></p><p style="TEXT-INDENT: 28px"><span style="FONT-FAMILY: Times New Roman">1</span><span style="FONT-FAMILY: 宋体">、</span><span style="FONT-FAMILY: 宋体">设计主题：自选主体；</span></p><p style="TEXT-INDENT: 28px"><span style="FONT-FAMILY: Times New Roman">2</span><span style="FONT-FAMILY: 宋体">、</span><span style="FONT-FAMILY: 宋体">作品格式：</span><span style="FONT-FAMILY: Times New Roman">psd</span><span style="FONT-FAMILY: 宋体">格式；</span></p><p style="TEXT-INDENT: 28px"><span style="FONT-FAMILY: Times New Roman">3</span><span style="FONT-FAMILY: 宋体">、</span><span style="FONT-FAMILY: 宋体">作品内容：积极向上，紧扣主题，画面和谐美观，有创意；</span></p><p style="TEXT-INDENT: 28px"><span style="FONT-FAMILY: Times New Roman">4</span><span style="FONT-FAMILY: 宋体">、</span><span style="FONT-FAMILY: 宋体">作品上交必须附交作品征集表。</span></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;</span></p><p><strong><span style="FONT-FAMILY: 宋体">三、</span></strong><strong><span style="FONT-FAMILY: 宋体">投稿方式</span></strong></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;</span></p><p><span style="FONT-FAMILY: Times New Roman">&nbsp;&nbsp;&nbsp; </span><span style="FONT-FAMILY: 宋体">电子邮件方式：发至邮箱（</span><span style="FONT-FAMILY: Times New Roman">itsupply@163.com</span><span style="FONT-FAMILY: 宋体">）并附填写作品征集表格。</span></p><p><span style="FONT-SIZE: 14px; FONT-FAMILY: &#39;Times New Roman&#39;">&nbsp;&nbsp;&nbsp; </span><span style="FONT-SIZE: 14px; FONT-FAMILY: 宋体">参赛方式：团体参赛【人数不超过</span><span style="FONT-SIZE: 14px; FONT-FAMILY: &#39;Times New Roman&#39;">3</span><span style="FONT-SIZE: 14px; FONT-FAMILY: 宋体">人】或个人参赛，作品必须在截止日期</span>前上传至邮箱。</span></p><p></p>','PS大赛，主体不限，要求积极向上，紧扣主题，画面和谐美观，有创意','审核通过','未结束','Admin','是','2019-8-1'),
+(null,'公益广告大赛','2020-06-20','img/Activity/4.jpg','公益广告大赛','公益广告大赛','待审核','未结束','Admin','否','2019-8-1'),
+(null,'酒水创意包装设计大赛','2020-06-20','img/Activity/5.jpg','酒水创意包装设计大赛','酒水创意包装设计大赛','待审核','未结束','Admin','否','2019-8-1'),
+(null,'工业设计大赛','2020-06-20','img/Activity/6.jpg','工业设计大赛','工业设计大赛','待审核','未结束','Admin','否','2019-8-1');
+
+
+insert into WorkInfo
+values
+(null,'端午节','img/Work/1.png','2015-06-18','img/Work/i1.jpg','审核通过','Admin',1,'否',null),
+(null,'春节','img/Work/2.png','2015-06-13','img/Work/i2.jpg','审核通过','andy',1,'是','2014-06-17'),
+(null,'云雾茶包装设计','img/Work/3.png','2016-06-13','img/Work/i3.jpg','审核通过','Admin',2,'是','2014-06-17'),
+(null,'普洱包装设计','img/Work/4.png','2015-06-13','img/Work/i4.jpg','审核通过','Admin',2,'否',NULL),
+(null,'西湖龙井包装设计','img/Work/5.png','2015-06-13','img/Work/i5.jpg','审核通过','Admin',2,'否',NULL),
+(null,'碧螺春包装设计','img/Work/6.png','2015-06-13','img/Work/i6.jpg','审核通过','Admin',2,'否',NULL),
+(null,'白茶包装设计','img/Work/7.png','2015-06-13','img/Work/i7.jpg','审核通过','Admin',2,'是','2015-06-17'),
+(null,'记忆拼图','img/Work/8.png','2015-06-13','img/Work/i8.jpg','审核通过','Admin',3,'是','2015-06-17'),
+(NULL,'卷轴记忆','img/Work/9.png','2015-06-13','img/Work/i9.jpg','审核通过','Admin',3,'是','2015-06-17'),
+(null,'绿色记忆','img/Work/10.png','2015-06-13','img/Work/i10.jpg','审核通过','Admin',3,'否',NULL),
+(null,'绿色如记忆','img/Work/11.png','2015-06-13','img/Work/i11.jpg','待审核','andy',3,'否',NULL),
+(null,'梦幻','img/Work/12.png','2015-06-13','img/Work/i12.jpg','审核通过','Admin',3,'是','2015-06-17'),
+(null,'水的记忆','img/Work/13.png','2015-06-13','img/Work/i13.jpg','审核通过','Admin',3,'是','2015-06-17');
+
+insert into Comment
+values
+(null,1,'Admin','图片制作精美，符合端午节气氛','2015-06-07'),
+(null,13,'andy','很漂亮哦','2015-06-18'),
+(null,2,'Admin','很漂亮哦','2015-06-18'),
+(null,5,'andy','很漂亮哦','2015-06-18'),
+(null,7,'Admin','很漂亮哦','2015-06-18'),
+(null,9,'andy','制作非常精美，很喜欢','2015-06-18');
+
+
